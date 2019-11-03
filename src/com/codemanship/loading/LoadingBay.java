@@ -26,7 +26,8 @@ class LoadingBay {
     }
 
     Parcel unload(){
-        return SyncLoop.execute(() -> parcels.remove(parcels.size() - 1)).when(() -> !parcels.isEmpty(), this);
+        return execute(() -> parcels.remove(parcels.size() - 1))
+                .when(() -> !parcels.isEmpty(), this);
     }
 
 }
