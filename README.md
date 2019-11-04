@@ -23,14 +23,27 @@ To enable the conditional synchronisation - wait conditions and exit conditions 
 
 **RunnerLoop** allows me to set up a wait condition with the syntax:
 
-'SyncLoop.execute(action).when(condition, lock);'
+`SyncLoop.execute(action).when(condition, lock);`
 
 It will wait until the condition is true and then execute the action (the condition being the pre-condition for the action) in a synchronised block. While it's waiting, no other threads are blocked.
 
 I can set up an exit condition using:
 
-'SyncLoop.execute(action).until(condition, lock);'
+`SyncLoop.execute(action).until(condition, lock);`
 
 It will repeat the action until the exit condition is satisfied, ending the loop.
 
 using **execute...when** and **execute...until**, I was able to implement my loading example and avoid deadlocks, with decent parallelism.
+
+**SupplierLoop** works like **RunnerLoop**, except that actions can have return values.
+
+The abstract class **SyncLoop** implements static execute methods that can return either a RunnerLoop or SupplierLoop, depending on which kind of function is passed for the action.
+
+So, with a static import, the final syntax can be something like:
+
+`    void load(Parcel parcel){
+        execute(() -> parcels.add(parcel))
+                .when(() -> !isFull(), this);
+    }`
+    
+Which, hopefully is more intuitively readable. Well, maybe. Sure looks nicer than lots of **while** loops!
