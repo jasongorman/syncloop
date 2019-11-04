@@ -1,4 +1,4 @@
-package com.codemanship.loading;
+package com.codemanship.example;
 
 import java.util.ArrayList;
 import java.util.List;
