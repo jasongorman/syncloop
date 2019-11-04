@@ -4,12 +4,12 @@ import java.util.List;
 
 import static com.codemanship.syncloop.SyncLoop.execute;
 
-class Loader implements Runnable {
+class BayLoader implements Runnable {
 
     private final LoadingBay bay;
     private final List<Parcel> parcels;
 
-    Loader(LoadingBay bay, List<Parcel> parcels) {
+    BayLoader(LoadingBay bay, List<Parcel> parcels) {
         this.bay = bay;
         this.parcels = parcels;
     }

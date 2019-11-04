@@ -2,12 +2,12 @@ package com.codemanship.loading;
 
 import static com.codemanship.syncloop.SyncLoop.execute;
 
-public class Unloader implements Runnable {
+public class TruckLoader implements Runnable {
 
     private final LoadingBay bay;
     private final Truck truck;
 
-    Unloader(LoadingBay bay, Truck truck) {
+    TruckLoader(LoadingBay bay, Truck truck) {
         this.bay = bay;
         this.truck = truck;
     }

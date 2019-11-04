@@ -15,8 +15,8 @@ public class Program {
         LoadingBay bay = new LoadingBay(10);
         Truck truck = new Truck(parcels.size());
 
-        Loader loader = new Loader(bay, parcels);
-        Unloader unloader = new Unloader(bay, truck);
+        BayLoader loader = new BayLoader(bay, parcels);
+        TruckLoader unloader = new TruckLoader(bay, truck);
 
         new Thread(loader).start();
         new Thread(loader).start();
