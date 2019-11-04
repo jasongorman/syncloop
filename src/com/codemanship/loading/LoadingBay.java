@@ -1,7 +1,5 @@
 package com.codemanship.loading;
 
-import com.codemanship.syncloop.SyncLoop;
-
 import java.util.ArrayList;
 import java.util.List;
 
