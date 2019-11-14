@@ -1,45 +1,57 @@
 package com.codemanship.example;
 
-import com.codemanship.concurrentjunit.ConcurrentAssert;
-import com.codemanship.concurrentjunit.ThreadPool;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
+
+import static junit.framework.TestCase.assertTrue;
 
 public class LoadingTest {
 
-    private static ThreadPool pool;
-
-    @BeforeClass
-    public static void setUp(){
-        pool = new ThreadPool(2);
-    }
-
-    @AfterClass
-    public static void tearDown(){
-        pool.stop();
-    }
+    private ExecutorService executor;
+    private LoadingBay bay;
+    private Truck truck;
 
     @Test
-    public void loadsTruck(){
+    public void loadsTruck() {
+        for (int x = 0; x < 10000; x++) {
+            repeat();
+        }
+    }
+
+    public void repeat() {
+
         List<Parcel> parcels = new ArrayList<>();
 
-        for(int i = 1; i <= 100000; i++){
+        for(int i = 1; i <= 1000; i++){
             parcels.add(new Parcel());
         }
 
-        LoadingBay bay = new LoadingBay(10);
-        Truck truck = new Truck(parcels.size());
+        bay = new LoadingBay(10);
+        truck = new Truck(parcels.size());
 
         BayLoader loader = new BayLoader(bay, parcels);
         TruckLoader unloader = new TruckLoader(bay, truck);
 
-        ThreadPool pool = new ThreadPool(2);
+        executor = Executors.newFixedThreadPool(2);
+        executor.submit(loader);
+        executor.submit(unloader);
 
-        ConcurrentAssert.assertConcurrent(Arrays.asList(loader, unloader), () -> truck.isLoaded(), 1, 1000, pool);
+        executor.shutdown();
+
+        try {
+            executor.awaitTermination(1000, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(bay.isEmpty());
+        assertTrue(truck.isLoaded());
     }
 }

@@ -28,4 +28,7 @@ class LoadingBay {
                 .when(() -> !parcels.isEmpty(), this);
     }
 
+    public boolean isEmpty() {
+        return parcels.isEmpty();
+    }
 }

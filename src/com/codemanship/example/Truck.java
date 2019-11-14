@@ -14,7 +14,6 @@ class Truck {
 
     void load(Parcel parcel) {
         manifest.add(parcel);
-        System.out.println("PARCEL LOADED: " + manifest.size() + " by " + Thread.currentThread().getId());
     }
 
     Boolean isLoaded(){
