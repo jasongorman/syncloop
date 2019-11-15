@@ -1,6 +1,5 @@
 package com.codemanship.example;
 
-import com.codemanship.com.codemanship.concurrentassert.ConcurrentAssert;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
@@ -12,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static com.codemanship.com.codemanship.concurrentassert.ConcurrentAssert.assertConcurrent;
+import static com.codemanship.concurrentassert.ConcurrentAssert.assertConcurrent;
 
 @RunWith(JUnitParamsRunner.class)
 public class LoadingTest {

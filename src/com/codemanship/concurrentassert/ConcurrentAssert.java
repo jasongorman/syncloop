@@ -1,4 +1,4 @@
-package com.codemanship.com.codemanship.concurrentassert;
+package com.codemanship.concurrentassert;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
