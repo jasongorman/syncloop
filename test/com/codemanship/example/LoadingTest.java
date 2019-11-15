@@ -1,57 +1,52 @@
 package com.codemanship.example;
 
-import org.junit.*;
+import com.codemanship.com.codemanship.concurrentassert.ConcurrentAssert;
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-import static junit.framework.TestCase.assertTrue;
+import static com.codemanship.com.codemanship.concurrentassert.ConcurrentAssert.assertConcurrent;
 
+@RunWith(JUnitParamsRunner.class)
 public class LoadingTest {
 
-    private ExecutorService executor;
     private LoadingBay bay;
     private Truck truck;
+    private BayLoader bayLoader;
+    private TruckLoader truckLoader;
 
-    @Test
-    public void loadsTruck() {
-        for (int x = 0; x < 10000; x++) {
-            repeat();
-        }
-    }
-
-    public void repeat() {
-
+    @Before
+    public void setUp() {
         List<Parcel> parcels = new ArrayList<>();
 
-        for(int i = 1; i <= 1000; i++){
+        for (int i = 1; i <= 1000; i++) {
             parcels.add(new Parcel());
         }
 
         bay = new LoadingBay(10);
         truck = new Truck(parcels.size());
 
-        BayLoader loader = new BayLoader(bay, parcels);
-        TruckLoader unloader = new TruckLoader(bay, truck);
-
-        executor = Executors.newFixedThreadPool(2);
-        executor.submit(loader);
-        executor.submit(unloader);
-
-        executor.shutdown();
-
-        try {
-            executor.awaitTermination(1000, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        assertTrue(bay.isEmpty());
-        assertTrue(truck.isLoaded());
+        bayLoader = new BayLoader(bay, parcels);
+        truckLoader = new TruckLoader(bay, truck);
     }
+
+    @Test
+    @Parameters
+    public void loadsTruck(int x) {
+        assertConcurrent(Arrays.asList(bayLoader, truckLoader)
+                , () -> bay.isEmpty() && truck.isLoaded(), 4, 1000);
+
+    }
+
+    private Object[] parametersForLoadsTruck() {
+        return IntStream.range(0, 10000).mapToObj((x) -> x).toArray();
+    }
+
 }
