@@ -1,4 +1,4 @@
-package com.codemanship.example;
+package com.codemanship.loadingbay;
 
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
@@ -29,7 +29,7 @@ public class LoadingTest {
             parcels.add(new Parcel());
         }
 
-        bay = new LoadingBay(10);
+        bay = new LoadingBay(50);
         truck = new Truck(parcels.size());
 
         bayLoader = new BayLoader(bay, parcels);
@@ -40,7 +40,7 @@ public class LoadingTest {
     @Parameters
     public void loadsTruck(int x) {
         assertConcurrent(Arrays.asList(bayLoader, truckLoader)
-                , () -> bay.isEmpty() && truck.isLoaded(), 4, 1000);
+                , () -> bay.isEmpty() && truck.isLoaded(), 3, 1000);
 
     }
 

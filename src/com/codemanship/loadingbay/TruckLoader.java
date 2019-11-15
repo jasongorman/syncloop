@@ -1,4 +1,4 @@
-package com.codemanship.example;
+package com.codemanship.loadingbay;
 
 import static com.codemanship.syncloop.SyncLoop.execute;
 
