@@ -8,13 +8,13 @@ import java.util.function.Supplier;
 
 import static junit.framework.TestCase.assertTrue;
 
-class EventuallyAssert {
+class EventuallyAssertion {
 
     private final int threadCount;
     private ExecutorService executor;
     private long timeout;
 
-    EventuallyAssert(int threadCount, long timeout){
+    EventuallyAssertion(int threadCount, long timeout){
         this.timeout = timeout;
         this.threadCount = threadCount;
         this.executor = Executors.newFixedThreadPool(threadCount);
