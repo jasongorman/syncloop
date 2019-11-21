@@ -1,5 +1,6 @@
 package com.codemanship.loadingbay;
 
+import com.codemanship.concurrentassert.ConcurrentAssert;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
@@ -11,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import static com.codemanship.concurrentassert.ConcurrentAssert.always;
 import static com.codemanship.concurrentassert.ConcurrentAssert.eventually;
 
 @RunWith(JUnitParamsRunner.class)
@@ -37,15 +39,23 @@ public class LoadingTest {
     }
 
     @Test
-    @Parameters
-    public void loadsTruck(int x) {
+    @Parameters(method="iterations")
+    public void loadsTruck(int n) {
         eventually(Arrays.asList(bayLoader, truckLoader)
                 , () -> bay.isEmpty() && truck.isLoaded(), 2, 1000);
 
     }
 
-    private Object[] parametersForLoadsTruck() {
-        return IntStream.range(0, 10000).mapToObj((x) -> x).toArray();
+    @Test
+    @Parameters(method="iterations")
+    public void bayIsNeverOverloaded(int n) {
+        always(Arrays.asList(bayLoader, truckLoader)
+                , () -> bay.getParcelCount() <= 50, 2, 100);
+
+    }
+
+    private Object[] iterations() {
+        return IntStream.range(0, 1000).mapToObj((x) -> x).toArray();
     }
 
 }

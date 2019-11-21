@@ -31,4 +31,8 @@ class LoadingBay {
     public boolean isEmpty() {
         return parcels.isEmpty();
     }
+
+    public int getParcelCount() {
+        return parcels.size();
+    }
 }
