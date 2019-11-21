@@ -47,3 +47,18 @@ So, with a static import, the final syntax can be something like:
     }`
     
 Which, hopefully is more intuitively readable. Well, maybe. Sure looks nicer than lots of **while** loops!
+
+# About the custom JUnit assertions
+
+To test my Loading Bay producer-consumer example code, I've knocked up a couple of custom JUnit assertions: **always()** and **eventually()**
+
+**always** persistently applies an assertion in a loop running in its own thread throughout execution of the concurrent thread pool the code being tested runs in (warning, runs slow!) This is an attempt to chec for safety properties during concurrent execution.
+
+**eventually** waits until all threads have finished executing (or have timed out) and then assertions that an outcome was achieved.
+
+I've used JUnitParams to feed a large number of test cases to each unit test, so this is a statistical rather than deterministic approach. 1000 iterations of a test might give us 99.9% confidence the code works. 10,000 might give 99.99%, and so on.
+
+
+*DISCLAIMER: This is just a prototype. Provided for illustration purposes only, with no warranty*
+
+
