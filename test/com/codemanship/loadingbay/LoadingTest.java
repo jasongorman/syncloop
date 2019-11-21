@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static com.codemanship.concurrentassert.ConcurrentAssert.assertConcurrent;
+import static com.codemanship.concurrentassert.ConcurrentAssert.eventually;
 
 @RunWith(JUnitParamsRunner.class)
 public class LoadingTest {
@@ -39,8 +39,8 @@ public class LoadingTest {
     @Test
     @Parameters
     public void loadsTruck(int x) {
-        assertConcurrent(Arrays.asList(bayLoader, truckLoader)
-                , () -> bay.isEmpty() && truck.isLoaded(), 3, 1000);
+        eventually(Arrays.asList(bayLoader, truckLoader)
+                , () -> bay.isEmpty() && truck.isLoaded(), 2, 1000);
 
     }
 

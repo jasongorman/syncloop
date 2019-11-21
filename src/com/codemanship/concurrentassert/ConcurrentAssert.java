@@ -20,11 +20,11 @@ public class ConcurrentAssert {
         this.executor = Executors.newFixedThreadPool(threadCount);
     }
 
-    public static void assertConcurrent(List<Runnable> functions, Supplier<Boolean> assertion, int threadCount, long timeout) {
-        new ConcurrentAssert(threadCount, timeout).assertConcurrent(functions, assertion);
+    public static void eventually(List<Runnable> functions, Supplier<Boolean> assertion, int threadCount, long timeout) {
+        new ConcurrentAssert(threadCount, timeout).eventually(functions, assertion);
     }
 
-    private void assertConcurrent(List<Runnable> functions, Supplier<Boolean> assertion) {
+    private void eventually(List<Runnable> functions, Supplier<Boolean> assertion) {
         startThreads(functions);
         assertTrue(assertion.get());
     }
