@@ -50,7 +50,7 @@ public class LoadingTest {
     @Parameters(method="iterations")
     public void bayIsNeverOverloaded(int n) {
         always(Arrays.asList(bayLoader, truckLoader)
-                , () -> bay.getParcelCount() <= 50, 2, 100);
+                , () -> bay.getParcelCount() <= 50, 2, 1000);
 
     }
 
