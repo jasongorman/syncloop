@@ -30,7 +30,6 @@ class AlwaysAssertion {
     }
 
     private void startThreads(List<Runnable> functions, Supplier<Boolean> assertion) {
-
         ExecutorService alwaysExecutor = startAssertionThread(assertion);
         startThreadsUnderTest(functions);
         executor.shutdown();
@@ -64,11 +63,13 @@ class AlwaysAssertion {
     private ExecutorService startAssertionThread(Supplier<Boolean> assertion) {
         Runnable always = () -> {
             while (running) {
-                passed = passed && assertion.get();
+                synchronized (this) {
+                    passed = passed && assertion.get();
+                }
             }
         };
 
-        ExecutorService alwaysExecutor = Executors.newFixedThreadPool(1);
+        ExecutorService alwaysExecutor = Executors.newSingleThreadExecutor();
         alwaysExecutor.submit(always);
         return alwaysExecutor;
     }
