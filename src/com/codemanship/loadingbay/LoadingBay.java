@@ -19,13 +19,13 @@ class LoadingBay {
                 .when(() -> !isFull(), this);
     }
 
-    private Boolean isFull(){
-        return parcels.size() == capacity;
-    }
-
     Parcel unload(){
         return execute(() -> parcels.remove(parcels.size() - 1))
                 .when(() -> !parcels.isEmpty(), this);
+    }
+
+    private Boolean isFull(){
+        return parcels.size() == capacity;
     }
 
     public boolean isEmpty() {

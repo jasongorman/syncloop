@@ -1,6 +1,5 @@
 package com.codemanship.loadingbay;
 
-import com.codemanship.concurrentassert.ConcurrentAssert;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
